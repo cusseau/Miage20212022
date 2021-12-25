@@ -1,34 +1,26 @@
-Class data.Reservation Extends (%Persistent, %JSON.Adaptor)
+Class Production.ProductionReservation Extends Ens.Production
 {
 
-Property voiture As data.Voiture;
-
-Property dateDebut As %TimeStamp;
-
-Property dateFin As %TimeStamp;
-
-Storage Default
+XData ProductionDefinition
 {
-<Data name="ReservationDefaultData">
-<Value name="1">
-<Value>%%CLASSNAME</Value>
-</Value>
-<Value name="2">
-<Value>voiture</Value>
-</Value>
-<Value name="3">
-<Value>dateDebut</Value>
-</Value>
-<Value name="4">
-<Value>dateFin</Value>
-</Value>
-</Data>
-<DataLocation>^data.ReservationD</DataLocation>
-<DefaultData>ReservationDefaultData</DefaultData>
-<IdLocation>^data.ReservationD</IdLocation>
-<IndexLocation>^data.ReservationI</IndexLocation>
-<StreamLocation>^data.ReservationS</StreamLocation>
-<Type>%Storage.Persistent</Type>
+<Production Name="Production.ProductionReservation" TestingEnabled="true" LogGeneralTraceEvents="false">
+  <Description></Description>
+  <ActorPoolSize>1</ActorPoolSize>
+  <Item Name="Voiture" Category="" ClassName="BO.Voiture" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+  </Item>
+  <Item Name="ServiceFichierVoitureCommande" Category="" ClassName="BS.ServiceFichierVoitureCommande" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Adapter" Name="FilePath">/tmp/</Setting>
+    <Setting Target="Adapter" Name="FileSpec">*.csv</Setting>
+  </Item>
+  <Item Name="CommandeVoiture" Category="" ClassName="EnsLib.MsgRouter.RoutingEngine" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="BusinessRuleName">Rule.CommandeVoiture</Setting>
+  </Item>
+  <Item Name="ServiceVoiture" Category="" ClassName="BS.ServiceVoiture" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  </Item>
+  <Item Name="Reservation" Category="" ClassName="BO.Reservation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  </Item>
+</Production>
 }
 
 }
