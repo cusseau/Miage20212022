@@ -19,4 +19,10 @@ Method creerVoiture(pInput As %RegisteredObject, Output pOutput As %RegisteredOb
     Quit $$$OK
 }
 
+Method supprimerVoiture(pInput As %RegisteredObject, Output pOutput As %RegisteredObject) As %Status
+{
+     set tsc = ..SendRequestSync("Voiture",pInput,.pOutput)
+    Quit $$$OK
+}
+
 }
