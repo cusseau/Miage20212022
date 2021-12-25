@@ -7,7 +7,7 @@ Parameter ADAPTER = "EnsLib.File.OutboundAdapter";
 
 Parameter INVOCATION = "Queue";
 
-Method creerReservation(pRequest As msg.createReservationDmde, Output pResponse As msg.createReservationRpse) As %Status
+Method createReservation(pRequest As msg.createReservationDmde, Output pResponse As msg.createReservationRpse) As %Status
 {
     set pResponse = ##class(msg.createReservationRpse).%New()
     set sql = "select plaque from data.Voiture where categorie = '"_pRequest.categorie_"' and plaque not in ("
@@ -47,7 +47,7 @@ Method creerReservation(pRequest As msg.createReservationDmde, Output pResponse 
     Quit $$$OK
 }
 
-Method checkReservation(pRequest As msg.createVerifyReservationDmde, Output pResponse As msg.createVerifyReservationRpse) As %Status
+Method verifyReservation(pRequest As msg.createVerifyReservationDmde, Output pResponse As msg.createVerifyReservationRpse) As %Status
 {
     set pResponse = ##class(msg.createVerifyReservationRpse).%New()
     set sql = "select voiture from data.Reservation where voiture->plaque = '"_pRequest.plaque_"' and (datDeb >= GETDATE() or datFin >= GETDATE())"
@@ -68,10 +68,10 @@ XData MessageMap
 {
 <MapItems>
     <MapItem MessageType="msg.createReservationDmde">
-        <Method>creerReservation</Method>
+        <Method>createReservation</Method>
     </MapItem>
     <MapItem MessageType="msg.createVerifyReservationDmde">
-    <Method>checkReservation</Method>
+    <Method>verifyReservation</Method>
     </MapItem>
 </MapItems>
 }
